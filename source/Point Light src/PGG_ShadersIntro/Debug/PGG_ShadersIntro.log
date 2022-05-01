@@ -1,0 +1,9 @@
+﻿  Cube.cpp
+  Main.cpp
+  Scene.cpp
+C:\Users\leons\Documents\University\Graphics and Computational Programming\Submission Folder\source\Point Light src\PGG_ShadersIntro\Scene.cpp(70,48): warning C4305: '-=': truncation from 'double' to 'float'
+C:\Users\leons\Documents\University\Graphics and Computational Programming\Submission Folder\source\Point Light src\PGG_ShadersIntro\Scene.cpp(76,48): warning C4305: '-=': truncation from 'double' to 'float'
+  Generating Code...
+  glew.c
+  LINK : C:\Users\leons\Documents\University\Graphics and Computational Programming\Submission Folder\source\Point Light src\Debug\PGG_ShadersIntro.exe not found or not built by the last incremental link; performing full link
+  PGG_ShadersIntro.vcxproj -> C:\Users\leons\Documents\University\Graphics and Computational Programming\Submission Folder\source\Point Light src\Debug\PGG_ShadersIntro.exe

@@ -1,0 +1,11 @@
+﻿  Cube.cpp
+  Main.cpp
+  Scene.cpp
+C:\Users\leons\Documents\GitHub\GCP-shadows-demo\PGG_ShadersIntro\Scene.cpp(66,48): warning C4305: '-=': truncation from 'double' to 'float'
+C:\Users\leons\Documents\GitHub\GCP-shadows-demo\PGG_ShadersIntro\Scene.cpp(72,48): warning C4305: '-=': truncation from 'double' to 'float'
+  glew.c
+  Generating code
+  Previous IPDB not found, fall back to full compilation.
+  All 604 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  PGG_ShadersIntro.vcxproj -> C:\Users\leons\Documents\GitHub\GCP-shadows-demo\Release\PGG_ShadersIntro.exe

@@ -1,0 +1,101 @@
+#version 430 core
+// This is the fragment shader
+// The program in this file will be run separately for each fragment (pixel) that is drawn
+
+// These are the per-fragment inputs
+// They must match with the outputs of the vertex shader
+in vec3 eyeSpaceNormalV;
+in vec3 eyeSpaceLightPosV; //LightPos
+in vec3 eyeSpaceVertPosV;	//FragPos
+in vec4 fragPostLightSpace;
+in vec4 lightSpaceVertPos;
+in vec2 texCoord;
+in vec3 fragPos;
+
+// These variables will be the same for every vertex in the model
+// They are mostly material and light properties
+// We provide default values in case the program doesn't set them
+uniform vec3 lightColour = {1,1,1};
+uniform vec3 emissiveColour = {0,0,0};
+uniform vec3 ambientColour  = {0.1f,0.1f,0.2f};
+uniform vec3 diffuseColour  = {0.8f,0.1f,0.1f};
+uniform vec3 specularColour = {0.0f,1.0f,0.0f};
+uniform float shininess     = 20.0f;
+uniform float alpha         = 1.0f;
+uniform sampler2D depthMap;
+uniform samplerCube cubeMap;
+uniform float near_plane;
+uniform float far_plane;
+uniform mat4 lightSpaceMatrix;
+uniform vec3 lightPos;
+
+// This is the output, it is the fragment's (pixel's) colour
+out vec4 fragColour;
+
+vec3 gridSamplingDisk[20] = vec3[]
+(
+   vec3(1, 1,  1), vec3( 1, -1,  1), vec3(-1, -1,  1), vec3(-1, 1,  1), 
+   vec3(1, 1, -1), vec3( 1, -1, -1), vec3(-1, -1, -1), vec3(-1, 1, -1),
+   vec3(1, 1,  0), vec3( 1, -1,  0), vec3(-1, -1,  0), vec3(-1, 1,  0),
+   vec3(1, 0,  1), vec3(-1,  0,  1), vec3( 1,  0, -1), vec3(-1, 0, -1),
+   vec3(0, 1,  1), vec3( 0, -1,  1), vec3( 0, -1, -1), vec3( 0, 1, -1)
+);
+
+ float ShadowCalculation(vec3 fragPos)
+{
+    vec3 fragToLight = fragPos - lightPos;
+
+
+    float currentDepth = length(fragToLight);
+
+    float shadow = 0.0;
+    float bias = 0.15;
+    int samples = 50;
+    float viewDistance = length(eyeSpaceNormalV - fragPos);
+    float diskRadius = (1.0 + (viewDistance / far_plane)) / 25.0;
+
+    for(int i = 0; i < samples; i++)
+    {
+        float closestDepth = texture(cubeMap, fragToLight + gridSamplingDisk[i] * diskRadius).r;
+        closestDepth *= far_plane;
+        if(currentDepth - bias > closestDepth)
+        {
+            shadow += 1.0;
+        }
+    }
+    shadow /= float(samples);
+
+    return shadow;
+}
+
+// The actual program, which will run on the graphics card
+void main()
+{
+		// This is the direction from the fragment to the light, in eye-space
+        vec3 lightDir = normalize( lightPos - fragPos );
+        // Re-normalise the normal just in case
+        vec3 normal = normalize( eyeSpaceNormalV );
+    
+        vec3 viewDir = normalize(eyeSpaceNormalV - fragPos);
+        vec3 halfwayDir = normalize(lightDir + viewDir);
+
+        vec3 diffuse = vec3(0,0,0);
+	
+        // This is where you need to write your code!
+        float spec = pow(max(dot(normal, halfwayDir), 0.0), shininess);
+        vec3 specular = lightColour * spec;
+        
+		// Calculate shadows
+		float shadow = ShadowCalculation(fragPos);
+
+		//Final Lighting variable
+		vec3 lighting = (ambientColour + (1.0 - shadow) * (diffuse + specular));
+
+        // The final output colour is the emissive + ambient + diffuse + specular (old)
+        //fragColour = vec4( emissiveColour + ambientColour + diffuse + specular, alpha) ;
+
+		fragColour = vec4(lighting, 1.0f);
+        //fragColour = vec4(shadow);
+	
+
+}
