@@ -10,6 +10,7 @@ This repo features source code for both OpenGL point light shadows and shadow ma
 
 ## Video Demonstration/Explanation
 [![youtube](https://img.youtube.com/vi/TK_UAQUHaiM/0.jpg)](https://www.youtube.com/watch?v=TK_UAQUHaiM)
+
 (click the thumbnail to open the YouTube video)
 
 
