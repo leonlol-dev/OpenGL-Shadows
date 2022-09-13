@@ -11,4 +11,4 @@ University assignment on OpenGL shadows w/ video essay. On Github for keepsake, 
 [![YouTube thumbnail](./doc/thumb.png)](https://www.youtube.com/watch?v=TK_UAQUHaiM)
 
 ## Website
--[leonlol-dev.github.io](https://leonlol-dev.github.io/Portfolio/index.html)
+[leonlol-dev.github.io](https://leonlol-dev.github.io/Portfolio/index.html)
